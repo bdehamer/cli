@@ -19,10 +19,9 @@ const generateProvenance = async (subject, opts) => {
   let payload
   if (ci.GITHUB_ACTIONS) {
     /* istanbul ignore next - not covering missing env var case */
-    const [workflowPath, ...rest] = (env.GITHUB_WORKFLOW_REF || '')
-      .replace(env.GITHUB_REPOSITORY + '/', '')
-      .split('@')
-    const workflowRef = rest.join('@')
+    const relativeRef = (env.GITHUB_WORKFLOW_REF || '').replace(env.GITHUB_REPOSITORY + '/', '')
+    const workflowPath = relativeRef.slice(0, relativeRef.indexOf('@'))
+    const workflowRef = relativeRef.slice(relativeRef.indexOf('@') + 1)
     payload = {
       _type: INTOTO_STATEMENT_V1_TYPE,
       subject,
