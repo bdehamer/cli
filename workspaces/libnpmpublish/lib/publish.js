@@ -136,8 +136,10 @@ const buildMetadata = async (registry, manifest, tarballData, spec, opts) => {
     }
 
     if (provenance === true) {
+      console.log("PROV'ING")
       await ensureProvenanceGeneration(registry, spec, opts)
       provenanceBundle = await generateProvenance([subject], opts)
+      console.log(JSON.stringify(provenanceBundle))
 
       /* eslint-disable-next-line max-len */
       log.notice('publish', `Signed provenance statement with source and build information from ${ciInfo.name}`)
